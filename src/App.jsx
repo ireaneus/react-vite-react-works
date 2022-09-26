@@ -1,42 +1,22 @@
-import { useState, useCallback } from 'react';
-import reactLogo from './assets/react.svg';
+import React, { useState, useCallback, useMemo } from 'react';
+
 import './App.css';
-import DemoOutput from './components/DemoOutput';
+import DemoList from './components/Demo/DemoList';
+import Button from './components/UI/Button';
 
 function App() {
-  const [showCount, setShowCount] = useState(false);
-  const [allowToggle, setAllowToggle] = useState(false);
+  const [listTitle, setListTitle] = useState('My List');
 
-  console.log('APP Running');
+  const changeTitleHandler = useCallback(() => {
+    setListTitle('New Title');
+  }, []);
 
-  const toggleShowCount = useCallback(() => {
-    if (allowToggle) {
-      setShowCount((prevShowCount) => !prevShowCount);
-    }
-  }, [allowToggle]);
-
-  const allowToggleHandler = () => {
-    setAllowToggle(true);
-  };
+  const listItems = useMemo(() => [5, 3, 1, 10, 9], []);
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <div className="card">
-        <button onClick={toggleShowCount}>show paragraph below</button>
-        <button onClick={allowToggleHandler}>Enable Button above</button>
-        <DemoOutput show={showCount} />
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <div className="app">
+      <DemoList title={listTitle} items={listItems} />
+      <Button onClick={changeTitleHandler}>Change List Title</Button>
     </div>
   );
 }
